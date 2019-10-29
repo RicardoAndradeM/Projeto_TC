@@ -1,17 +1,24 @@
 # coding: utf-8
-estados  = raw_input("Digite os Estados do Autômato:")
+estados  = raw_input("Digite os Estados do Autômato:").split()
 inicial = raw_input("Estado Inicial:")
 aceita = raw_input("Defina os Estados que serão de aceitação:").split()
 print "Informe as funções de transição:"
 
 #Definindo a lista de transições
+j = 0
 transicoes = []
-x = " "
-while(x != ["fim"]):
-	if((x != ["fim"]) and (x != " ")):
-		transicoes += x
+quant_funcoes = len(estados)*len(estados)
+while(j < quant_funcoes ):
 	x = raw_input().split()
+	transicoes += x
+	j += 1
 #Definindo a lista de transições
+
+#Operações
+questao = raw_input("Deseja fazer alguma operação com o autômato?(Sim ou Não): ")
+if(questao == "Sim"):
+	operacao = raw_input("Digite a operação desejada(Complemento ou União): ")
+#Operações
 
 #Definindo entrada
 entrada = []
@@ -24,6 +31,8 @@ estado_atual = inicial
 #Execução do autômato
 print "Estado        Palavra"
 while (entrada != []):
+	if (entrada[0] == "e" ):
+		break
 	i = 0
 	p_entrada = ""
 	for p in entrada:
@@ -39,12 +48,20 @@ while (entrada != []):
 	del(entrada[0])
 
 print estado_atual + "             e"
-
-if (estado_atual in aceita):
-	print "A palavra foi aceita"
-else:
-	print "A palavra não foi aceita"
 #Execução do autômato
+
+#Operação de Saída
+if(operacao == "Complemento"):
+	if(not(estado_atual in aceita)):
+		print "A palavra foi aceita"
+	else:
+		print "A palavra não foi aceita"
+else:
+	if(estado_atual in aceita):
+		print "A palavra foi aceita"
+	else:
+		print "A palavra não foi aceita"
+#Operação de Saída
 
 
 
