@@ -51,11 +51,12 @@ print estado_atual + "             e"
 #Execução do autômato
 
 #Operação de Saída
-if(operacao == "Complemento"):
-	if(not(estado_atual in aceita)):
-		print "A palavra foi aceita"
-	else:
-		print "A palavra não foi aceita"
+if(questao == "Sim"):
+	if(operacao == "Complemento"):
+		if(not(estado_atual in aceita)):
+			print "A palavra foi aceita"
+		else:
+			print "A palavra não foi aceita"
 else:
 	if(estado_atual in aceita):
 		print "A palavra foi aceita"
