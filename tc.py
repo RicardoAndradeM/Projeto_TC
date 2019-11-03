@@ -54,32 +54,44 @@ estado_atual = inicial
 #Definindo entrada
 
 #Execução do autômato
-print "Estado        Palavra"
-while (entrada != []):
-	if (entrada[0] == "e" ):
-		break
-	i = 0
-	p_entrada = ""
-	for p in entrada:
-		p_entrada += p	
-	print estado_atual + "             " + p_entrada
+def execucao (estados, estado_atual, aceita, transicoes, entrada):
+	passou = False
+	while (entrada != []):
+		caminhos_possiveis = 0
+		j = 0
+		i = 0 
+		#Este laço determina a quantidade de caminhos disponiveis que um automato pode seguir em um dado estado
+		while (i < len(transicoes)):
+			if((transicoes[i] == estado_atual) and (entrada[0] == transicoes[i+2])):
+				caminhos_possiveis += 1
+			i+= 3
+		#Este laço determina a quantidade de caminhos disponiveis que um automato pode seguir em um dado estado
 
-	while (i <= len(transicoes)):
-		if ((transicoes[i] == estado_atual) and (entrada[0] == transicoes[i+2])):
-			estado_atual = transicoes[i+1]
-			break
-		else:
-			i += 3
-	del(entrada[0])
-
-print estado_atual + "             e"
+		#Sobre estes dois laços, o primeiro garante que todos os caminhos do estado sejam seguidos com informação adquirida no primeir			o e o segundo garante isso para todos os estados com um apoio recursivo
+		for k in range(caminhos_possiveis):
+			while(j < len(transicoes)): 
+				if((transicoes[j] == estado_atual) and (entrada[0] == transicoes[j+2])): 
+					entrada_reserva = []
+					for l in entrada:
+						entrada_reserva += l
+					del(entrada_reserva[0])
+					if(execucao (estados, transicoes[j+1], aceita, transicoes, entrada_reserva)):
+						passou = True
+				j+= 3
+			del(entrada[0])
+	
+		#Sobre estes dois laços, o primeiro garante que todos os caminhos do estado sejam seguidos com informação adquirida no primeir			o e o segundo garante isso para todos os estados com um apoio recursivo
+	if(estado_atual in aceita):
+		passou = True
+	return passou
 #Execução do autômato
 
+
 #Operação de Saída
-if(estado_atual in aceita):
-	print "A palavra foi aceita"
+if(execucao(estados, estado_atual, aceita, transicoes, entrada)):
+	print "Palavra Aceita"
 else:
-	print "A palavra não foi aceita"
+	print"Palavra não aceita"
 #Operação de Saída
 
 
