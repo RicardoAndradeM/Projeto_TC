@@ -1,28 +1,53 @@
 # coding: utf-8
-estados  = raw_input("Digite os Estados do Autômato:").split()
-inicial = raw_input("Estado Inicial:")
-aceita = raw_input("Defina os Estados que serão de aceitação:").split()
-print "Informe as funções de transição:"
+import sys
 
-#Definindo a lista de transições
-j = 0
-transicoes = []
-quant_funcoes = len(estados)*len(estados)
-while(j < quant_funcoes ):
-	x = raw_input().split()
-	transicoes += x
-	j += 1
-#Definindo a lista de transições
+def entrada():
+	'''
+	Esta função pega o endereço do arquivo com a descrição que o autômato precisa para execultar o programa
+	e a palavra via CLI e retorna o os componentes nescessarios para execulção do programa em uma tupla.
+	Os componente retornado são:
+		estados - Estados do autômato
+		inicial - Estado inicial do autômato
+		aceita - Estados de aceitação do autômato
+		transições - Uma lista de transições entre estados
+		palavra - palavra a ser processada pelo autômato
+	'''
 
-#Operações
-questao = raw_input("Deseja fazer alguma operação com o autômato?(Sim ou Não): ")
-if(questao == "Sim"):
-	operacao = raw_input("Digite a operação desejada(Complemento ou União): ")
-#Operações
+	# sys.argv contem um array com todos o parametro passado para o python por linha de comando
+	# incluindo o nome do arquivo(que neste caso seria sys.argv[0], por isso começamos com sys.argv[1])
+	arquivoDeEntrada = sys.argv[1]
+	palavra = sys.argv[2]
+	estados,inicial,aceita,transicoes = parseEntrada(arquivoDeEntrada)
+	return (estados,inicial,aceita,transicoes,palavra)
+
+def parseEntrada(arquivoDeEntrada):
+	'''
+	Esta função recebe  o endereço do arquivo com a descrição do autômato, o lê e faz os devidos tratamentos no texto
+	para tornar os dados formatado adequadamente em em uma tupla de valores, sendo eles:
+		estados - Estados do autômato
+		inicial - Estado inicial do autômato
+		aceita - Estados de aceitação do autômato
+		transições - Uma lista de transições entre estados
+	'''
+	arquivo = open(arquivoDeEntrada, 'r')
+	estados = arquivo.readline().replace(' ','').replace('estados', '').replace('\n', '').split(',')
+
+	inicial = arquivo.readline().replace(' ','').replace('inicial', '').replace('\n', '')
+
+	aceita = arquivo.readline().replace(' ','').replace('aceita', '').replace('\n', '').split(',')
+
+	transicoes = []
+	for trasicao in arquivo:
+        # Possivel implementação futura
+		#transicoes.append(trasicao.replace('\n', '').split())
+		transicoes += trasicao.replace('\n', '').split()
+	return (estados,inicial,aceita,transicoes)
+
+estados,inicial,aceita,transicoes,palavra = entrada()
 
 #Definindo entrada
 entrada = []
-entrada_f = raw_input("Informe a entrada do Autômato:")
+entrada_f = palavra
 for f in  entrada_f:
 	entrada += f
 estado_atual = inicial
@@ -51,17 +76,10 @@ print estado_atual + "             e"
 #Execução do autômato
 
 #Operação de Saída
-if(questao == "Sim"):
-	if(operacao == "Complemento"):
-		if(not(estado_atual in aceita)):
-			print "A palavra foi aceita"
-		else:
-			print "A palavra não foi aceita"
+if(estado_atual in aceita):
+	print "A palavra foi aceita"
 else:
-	if(estado_atual in aceita):
-		print "A palavra foi aceita"
-	else:
-		print "A palavra não foi aceita"
+	print "A palavra não foi aceita"
 #Operação de Saída
 
 
