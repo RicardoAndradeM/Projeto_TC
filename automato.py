@@ -38,24 +38,47 @@ class Automato:
         resposta = self.execultar_r(estado_atual, palavra)
         print(resposta)
 
-    def execultar_r(self, estado_atual, palavra):
-        if len(palavra) == 0:
-            if estado_atual in self.aceita:
-                return "\n%s                e\nA palavra foi aceita" % estado_atual
-            else:
-                return "\n%s                e\nA palavra não foi aceita" %estado_atual
-        else:
+    def execultar_r(self, estado_atual, palavra, anteriores = []):
+        if estado_atual in self.transicoes:
             todas_trasicoes = self.transicoes[estado_atual]
-            respostas = []
+        else:
+            todas_trasicoes = []
+
+        respostas = []
+        if len(palavra) == 0:
+            tem_epsilon = False
+            for trasicao in todas_trasicoes:
+                if trasicao[1] == 'e':
+                    tem_epsilon = True
+                    if trasicao[0] in anteriores:
+                        respostas.append("\n%s                e\nA palavra não foi aceita" %estado_atual)
+                    else:
+                        anteriores.append(estado_atual)
+                        respostas.append(self.execultar_r(trasicao[0],palavra,anteriores))
+                        palavra = "e"
+
+            if not tem_epsilon:
+                if estado_atual in self.aceita:
+                    return "\n%s                e\nA palavra foi aceita" % estado_atual
+                else:
+                    return "\n%s                e\nA palavra não foi aceita" %estado_atual
+        else:
             for trasicao in todas_trasicoes:
                 if trasicao[1] == palavra[0]:
                     respostas.append(self.execultar_r(trasicao[0],palavra[1:len(palavra)]))
                 
-                if 'e' in trasicao:
-                    respostas.append(self.execultar_r(trasicao[0],palavra[1:len(palavra)]))
+                if trasicao[1] == 'e':
+                    if trasicao[0] in anteriores:
+                        respostas.append("\n%s                e\nA palavra não foi aceita" %estado_atual)
+                    else:
+                        anteriores.append(estado_atual)
+                        respostas.append(self.execultar_r(trasicao[0],palavra,anteriores))
             
-            for resposta in respostas:
-                if not "não" in resposta:
-                    return ("\n%s                %s" % (estado_atual,palavra)) + resposta
-            
-            return ("\n%s                %s" % (estado_atual,palavra)) + respostas[0]
+        if len(respostas) == 0:
+            return "\n%s                %s\nA palavra não foi aceita" % (estado_atual,palavra)
+
+        for resposta in respostas:
+            if not "não" in resposta:
+                return ("\n%s                %s" % (estado_atual,palavra)) + resposta
+
+        return ("\n%s                %s" % (estado_atual,palavra)) + respostas[0]
