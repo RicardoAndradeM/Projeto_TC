@@ -22,7 +22,7 @@ def entrada():
     arquivoDeEntrada = sys.argv[1]
     palavra = sys.argv[2]
     estados,inicial,aceita,transicoes = parseEntrada(arquivoDeEntrada)
-    if "-união" in sys.argv[2] or "-interseccao" in sys.argv[2]:
+    if "-uniao" in sys.argv[2] or "-interseccao" in sys.argv[2]:
         segundoArquivo = sys.argv[3]
         return (estados,inicial,aceita,transicoes,palavra,segundoArquivo)
     return (estados,inicial,aceita,transicoes,palavra,None)

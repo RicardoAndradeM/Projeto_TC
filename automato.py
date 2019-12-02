@@ -106,3 +106,9 @@ class Automato:
 
     def getEstrela(self):
         estados = ['q0'] + self.estados
+
+    def getIntercecao(self):
+
+    def getAFD(self):
+    
+    def getMinimizacao(self):
