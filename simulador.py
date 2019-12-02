@@ -15,6 +15,16 @@ def init():
             automato.getUniao(segundo_automato)
         elif palavra == "-complemento":
             automato.getComplemento()
+        elif palavra == "-estrela":
+            automato.getEstrela()
+        elif palavra == "-intercecao":
+            automato.getIntercecao()
+        elif palavra == "-complemento":
+            automato.complemento()
+        elif palavra == "-AFD":
+            automato.getAFD()
+        elif palavra == "-minimizacao":
+            automato.getMinimizacao()
 
 def entrada():
 	# sys.argv contem um array com todos o parametro passado para o python por linha de comando
