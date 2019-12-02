@@ -21,22 +21,18 @@ class Automato:
 
         respostas = []
         if len(palavra) == 0:
-            tem_epsilon = False
-            for trasicao in todas_trasicoes:
-                if trasicao[1] == 'e':
-                    tem_epsilon = True
-                    if trasicao[0] in anteriores:
-                        respostas.append("\n%s                e\nA palavra não foi aceita" %estado_atual)
-                    else:
-                        anteriores.append(estado_atual)
-                        respostas.append(self.execultar_r(trasicao[0],palavra,anteriores))
-                        palavra = "e"
-
-            if not tem_epsilon:
-                if estado_atual in self.aceita:
-                    return "\n%s                e\nA palavra foi aceita" % estado_atual
-                else:
-                    return "\n%s                e\nA palavra não foi aceita" %estado_atual
+            if estado_atual in self.aceita:
+                respostas.append("\nA palavra foi aceita")
+            else:
+                for trasicao in todas_trasicoes:
+                    if trasicao[1] == 'e':
+                        if trasicao[0] in anteriores:
+                            respostas.append("\nA palavra não foi aceita")
+                        else:
+                            anteriores.append(estado_atual)
+                            respostas.append(self.execultar_r(trasicao[0],palavra,anteriores))
+                respostas.append("\nA palavra não foi aceita")
+            palavra = "e"
         else:
             for trasicao in todas_trasicoes:
                 if trasicao[1] == palavra[0]:
@@ -106,9 +102,31 @@ class Automato:
 
     def getEstrela(self):
         estados = ['q0'] + self.estados
+        textEstados = "estados"
+        for estado in estados:
+            textEstados += " %s" % estado
+        print(textEstados)
+
+        print("inicial q0")
+
+        textAceita = "aceita q0"
+        for estado in self.aceita:
+            textAceita += " %s" % estado
+        print(textAceita)
+
+        print("q0 %s e" % self.inicial)
+        for estado in self.aceita:
+            print("%s q0 e" % estado)
+        
+        for estado in self.transicoes:
+            for transicao in self.transicoes[estado]:
+                print("%s %s %s" % (estado,transicao[0],transicao[1]))
 
     def getIntercecao(self):
+        pass
 
     def getAFD(self):
-    
+        pass
+
     def getMinimizacao(self):
+        pass
