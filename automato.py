@@ -7,31 +7,6 @@ class Automato:
         self.aceita = aceita
         self.transicoes = transicoes
 
-    '''def computaEstado(self, estado_atual, simbolo):
-        for funcao_de_trasicao in self.transicoes:
-            if funcao_de_trasicao[0] == estado_atual and funcao_de_trasicao[2] == simbolo:
-                return funcao_de_trasicao[1]
-        return None
-
-    def execultar(self, palavra,teste):
-        print("Estado                Palavra")
-        estado_atual = self.inicial
-        while len(palavra) > 0:
-            print("%s                %s" % (estado_atual,palavra))
-            r =self.computaEstado(estado_atual,palavra[0])
-
-            palavra = palavra[1:len(palavra)]
-            if r is None:
-              return False
-            else:
-              estado_atual = r
-
-        print("%s                e" % estado_atual)
-        if estado_atual in self.aceita:
-            print("A palavra foi aceita")
-        else:
-            print("A palavra não foi aceita")'''
-
     def execultar(self, palavra):
         print("Estado                Palavra")
         estado_atual = self.inicial
@@ -82,3 +57,52 @@ class Automato:
                 return ("\n%s                %s" % (estado_atual,palavra)) + resposta
 
         return ("\n%s                %s" % (estado_atual,palavra)) + respostas[0]
+
+    def getUniao(self,automato2):
+        estados = ['q0'] + self.estados + automato2.estados
+        aceita = self.aceita + automato2.aceita
+
+        textEstados = "estados"
+        for estado in estados:
+            textEstados += " %s" % estado
+        print(textEstados)
+
+        print("inicial q0")
+
+        textAceita = "aceita"
+        for estado in aceita:
+            textAceita += " %s" % estado
+        print(textAceita)
+
+        print("q0 %s e" % self.inicial)
+        print("q0 %s e" % automato2.inicial)
+
+        for estado in self.transicoes:
+            for transicao in self.transicoes[estado]:
+                print("%s %s %s" % (estado,transicao[0],transicao[1]))
+
+        for estado in automato2.transicoes:
+            for transicao in automato2.transicoes[estado]:
+                print("%s %s %s" % (estado,transicao[0],transicao[1]))
+
+    def getComplemento(self):
+        textEstados = "estados"
+        for estado in self.estados:
+            textEstados += " %s" % estado
+        print(textEstados)
+        
+        aceita = set(self.estados) - set(self.aceita)
+
+        print("inicial %s" % self.inicial)
+
+        textAceita = "aceita"
+        for estado in aceita:
+            textAceita += " %s" % estado
+        print(textAceita)
+
+        for estado in self.transicoes:
+            for transicao in self.transicoes[estado]:
+                print("%s %s %s" % (estado,transicao[0],transicao[1]))
+
+    def getEstrela(self):
+        estados = ['q0'] + self.estados

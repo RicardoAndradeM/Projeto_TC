@@ -3,19 +3,30 @@ import sys
 from automato import Automato
 
 def init():
-    estados,inicial,aceita,transicoes,palavra = entrada()
+    estados,inicial,aceita,transicoes,palavra,segundoArquivo = entrada()
 
     automato = Automato(estados,inicial,aceita,transicoes)
-
-    automato.execultar(palavra)
+    if not "-" in palavra:
+        automato.execultar(palavra)
+    else:
+        if palavra == "-uniao":
+            estados,inicial,aceita,transicoes = parseEntrada(segundoArquivo)
+            segundo_automato = Automato(estados,inicial,aceita,transicoes)
+            automato.getUniao(segundo_automato)
+        elif palavra == "-complemento":
+            automato.getComplemento()
 
 def entrada():
 	# sys.argv contem um array com todos o parametro passado para o python por linha de comando
 	# incluindo o nome do arquivo(que neste caso seria sys.argv[0], por isso começamos com sys.argv[1])
-	arquivoDeEntrada = sys.argv[1]
-	palavra = sys.argv[2]
-	estados,inicial,aceita,transicoes = parseEntrada(arquivoDeEntrada)
-	return (estados,inicial,aceita,transicoes,palavra)
+    arquivoDeEntrada = sys.argv[1]
+    palavra = sys.argv[2]
+    estados,inicial,aceita,transicoes = parseEntrada(arquivoDeEntrada)
+    if "-união" in sys.argv[2] or "-interseccao" in sys.argv[2]:
+        segundoArquivo = sys.argv[3]
+        return (estados,inicial,aceita,transicoes,palavra,segundoArquivo)
+    return (estados,inicial,aceita,transicoes,palavra,None)
+
 
 def parseEntrada(arquivoDeEntrada):
     arquivo = open(arquivoDeEntrada, 'r')
