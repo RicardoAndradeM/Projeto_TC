@@ -55,6 +55,8 @@ class Automato:
         return ("\n%s                %s" % (estado_atual,palavra)) + respostas[0]
 
     def getUniao(self,automato2):
+        self.rename("1")
+        automato2.rename("2")
         estados = set(['X'] + self.estados + automato2.estados)
         aceita = set(self.aceita + automato2.aceita)
 
@@ -75,11 +77,11 @@ class Automato:
 
         for estado in self.transicoes:
             for transicao in self.transicoes[estado]:
-                print("%s %s %s" % (estado,transicao[0],transicao[1]))
+                print("%s1 %s1 %s" % (estado,transicao[0],transicao[1]))
 
         for estado in automato2.transicoes:
             for transicao in automato2.transicoes[estado]:
-                print("%s %s %s" % (estado,transicao[0],transicao[1]))
+                print("%s2 %s2 %s" % (estado,transicao[0],transicao[1]))
 
     def getComplemento(self):
         textEstados = "estados"
@@ -130,3 +132,16 @@ class Automato:
 
     def getMinimizacao(self):
         pass
+
+    def rename(self, name):
+        x = 0
+        while x < len(self.estados):
+            self.estados[x] = self.estados[x] + name
+            x += 1
+        
+        self.inicial = self.inicial + name
+
+        x = 0
+        while x < len(self.aceita):
+            self.aceita[x] = self.aceita[x] + name
+            x += 1
