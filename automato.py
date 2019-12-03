@@ -55,23 +55,23 @@ class Automato:
         return ("\n%s                %s" % (estado_atual,palavra)) + respostas[0]
 
     def getUniao(self,automato2):
-        estados = ['q0'] + self.estados + automato2.estados
-        aceita = self.aceita + automato2.aceita
+        estados = set(['X'] + self.estados + automato2.estados)
+        aceita = set(self.aceita + automato2.aceita)
 
         textEstados = "estados"
         for estado in estados:
-            textEstados += " %s" % estado
-        print(textEstados)
+            textEstados += " %s," % estado
+        print(textEstados[0:-1])
 
-        print("inicial q0")
+        print("inicial X")
 
         textAceita = "aceita"
         for estado in aceita:
-            textAceita += " %s" % estado
-        print(textAceita)
+            textAceita += " %s," % estado
+        print(textAceita[0:-1])
 
-        print("q0 %s e" % self.inicial)
-        print("q0 %s e" % automato2.inicial)
+        print("X %s e" % self.inicial)
+        print("X %s e" % automato2.inicial)
 
         for estado in self.transicoes:
             for transicao in self.transicoes[estado]:
@@ -84,8 +84,8 @@ class Automato:
     def getComplemento(self):
         textEstados = "estados"
         for estado in self.estados:
-            textEstados += " %s" % estado
-        print(textEstados)
+            textEstados += " %s," % estado
+        print(textEstados[0:-1])
         
         aceita = set(self.estados) - set(self.aceita)
 
@@ -93,25 +93,25 @@ class Automato:
 
         textAceita = "aceita"
         for estado in aceita:
-            textAceita += " %s" % estado
-        print(textAceita)
+            textAceita += " %s," % estado
+        print(textAceita[0:-1])
 
         for estado in self.transicoes:
             for transicao in self.transicoes[estado]:
                 print("%s %s %s" % (estado,transicao[0],transicao[1]))
 
     def getEstrela(self):
-        estados = ['q0'] + self.estados
+        estados = ['X'] + self.estados
         textEstados = "estados"
         for estado in estados:
-            textEstados += " %s" % estado
-        print(textEstados)
+            textEstados += " %s," % estado
+        print(textEstados[0:-1])
 
-        print("inicial q0")
+        print("inicial X")
 
-        textAceita = "aceita q0"
+        textAceita = "aceita X"
         for estado in self.aceita:
-            textAceita += " %s" % estado
+            textAceita += ", %s" % estado
         print(textAceita)
 
         print("q0 %s e" % self.inicial)
