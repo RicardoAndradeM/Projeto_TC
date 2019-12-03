@@ -1,5 +1,11 @@
-estados C, D, E
-inicial C
-aceita E
-C D e
-D E 0
+estados 1, 2, 3, 4
+inicial 1
+aceita 4
+1 1 a
+1 1 b
+1 2 a
+2 3 a
+2 3 b
+3 4 a
+4 4 a
+4 4 b
